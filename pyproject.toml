@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "printer-status-v2"
+version = "0.1.0"
+description = "Webpage to display information about your Klipper 3d printer"
+authors = ["Jacob <jacob@jaso5.com>"]
+license = "Apache-2.0"
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.scripts]
+server = "src.main:run"
+klipper-get = 'src.tools.klipper-get:run'
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-dotenv = "^1.0.1"
+requests = "^2.32.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
