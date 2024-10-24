@@ -1,0 +1,115 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "description": "A response from the server-side containing information about the printer",
+    "type": "object",
+    "properties": {
+        "printer-state": {
+            "enum": [
+                "READY",
+                "PRINTING",
+                "PAUSED",
+                "ERROR"
+            ],
+            "description": "If value=ERROR, error property will be present, otherwise all other properties will be present"
+        }
+    },
+    "required": [
+        "printer-state"
+    ],
+    "additionalProperties": {
+        "file": {
+            "type": "object",
+            "properties": {
+                "progress": {
+                    "type": "number",
+                    "description": "Percentage Completion"
+                },
+                "path": {
+                    "type": "string",
+                    "description": "Path to gcode file, relative to '/home/user/printer_data/gcodes'"
+                },
+                "started": {
+                    "type": "number",
+                    "description": "UNIX timestamp, when the print was started"
+                }
+            },
+            "required": [
+                "progress",
+                "path",
+                "started"
+            ],
+            "additionalProperties": {
+                "remaining": {
+                    "type": "number",
+                    "description": "Predicted seconds remaining in print, only present if a print is in progress"
+                }
+            }
+        },
+        "machine-limits": {
+            "type": "object",
+            "properties": {
+                "feedrate": {
+                    "type": "number",
+                    "description": "Percentage"
+                },
+                "flow": {
+                    "type": "number",
+                    "description": "Percentage"
+                },
+                "velocity": {
+                    "type": "number",
+                    "description": "mm/s"
+                },
+                "acceleration": {
+                    "type": "number",
+                    "description": "mm/s^2"
+                }
+            },
+            "required": [
+                "feedrate",
+                "flow",
+                "velocity",
+                "acceleration"
+            ]
+        },
+        "thermals": {
+            "type": "object",
+            "properties": {
+                "hotend": {
+                    "type": "number",
+                    "description": "Degrees Celsius"
+                },
+                "buildplate": {
+                    "type": "number",
+                    "description": "Degrees Celsius"
+                },
+                "chamber": {
+                    "type": "number",
+                    "description": "Degrees Celsius"
+                }
+            },
+            "required": [
+                "hotend",
+                "buildplate",
+                "chamber"
+            ]
+        },
+        "error": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "Error message"
+                },
+                "time": {
+                    "type": "number",
+                    "description": "UNIX timestamp of when error ocurred"
+                }
+            },
+            "required": [
+                "text",
+                "time"
+            ]
+        }
+    }
+}
