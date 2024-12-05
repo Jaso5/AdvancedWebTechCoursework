@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Printer Status V2</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+</head>
+
+<body>
+    <div class="grid-container">
+        <section class="widget webcam">
+            <h1>Camera</h1>
+            <!-- <img src="https://placebear.com/1920/1080"> -->
+            <img src="{{ url }}/webcam/?action=stream" alt="Webcam Unavailable">
+        </section>
+
+        <section class="widget print-info">
+            <h1>Print Info</h1>
+            <div>
+                <img
+                    src="" id="print_thumb" alt="Missing File Preview">
+
+                <div class="spinner" >
+                    <p id="progress-spinner-text">100%</p>
+                    <svg viewBox="-2 -2 36 36">
+                        <circle
+                        cx="16"
+                        cy="16"
+                        r="16"
+                        stroke="#F24236"
+                        fill="transparent"
+                        stroke-width="3" />
+                     <circle
+                        id="progress-spinner-overlay"
+                        cx="16"
+                        cy="16"
+                        r="16"
+                        stroke="#616161"
+                        fill="transparent"
+                        stroke-width="3"
+                        pathLength="100"
+                        stroke-dashoffset="100"
+                        stroke-dasharray="100"/>
+                    </svg>
+                    
+                </div>
+                <section id="print-info-body">
+                    <p>File: jacob/benchy.N=0.4.gcode</p>
+                    <p>State: Unknown</p>
+                </section>
+            </div>
+        </section>
+        <section class="widget error">
+            <h1>Error</h1>
+            <div>
+                <p id="error-text">Error text goes here!</p>
+            </div>
+        </section>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src='main.js'></script>
+</html>

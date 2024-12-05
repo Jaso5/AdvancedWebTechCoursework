@@ -1,8 +1,8 @@
 import argparse
 import requests
 from pprint import pprint
-from env import load_env
-from net import get
+from src.env import load_env
+from src.net import get
 
 
 def run():
@@ -41,8 +41,10 @@ def run():
         else:
             res = get(printer_url, f"{args.method[0]}", key=api_key)
 
-    pprint(res.json())
-
+    try:
+        pprint(res.json())
+    except:
+        print(res.text)
 
 if __name__ == "__main__":
     run()

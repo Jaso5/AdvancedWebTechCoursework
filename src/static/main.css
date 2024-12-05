@@ -1,0 +1,148 @@
+
+:root {
+    --background: #212121;
+    --widget: #424242;
+    --title: #616161;
+    --text: #FDFFFC;
+    --highlight: #F24236;
+    --webcam_scale: 1.5;
+}
+
+* {
+    color: var(--text);
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: var(--background);
+    padding: 10px;
+}
+
+.grid-container {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: minmax(100px, auto);
+}
+
+/* Widget */
+.widget > h1 {
+    background-color: var(--title);
+    border-radius: 5px 5px 0 0;
+    padding: 7px;
+    margin: 0;
+    border-bottom: var(--highlight) 2px solid;
+}
+
+.widget > div {
+    background-color: var(--widget);
+    border-radius: 0 0 5px 5px;
+    padding: 5px;
+}
+
+.widget p {
+    font-size: x-large;
+}
+
+/* Webcam */
+.webcam {
+    grid-column: 1 / 3;
+    grid-row: 1;
+    width: fit-content;
+    height: fit-content;
+}
+
+.webcam > img {
+    width: 100%;
+    border-radius: 0 0 5px 5px;
+
+}
+
+/* Print Info */
+.print-info {
+    grid-column: 1/3;
+    grid-row: 2;
+}
+
+.print-info > div {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(5, 1fr);
+    /* grid-template-rows: repeat(2, 1fr); */
+}
+
+.print-info > div > img {
+    grid-column: 3 / 6;
+    grid-row: 1;
+    width: 100%;
+}
+
+.spinner {
+    display: grid;
+    place-items: center;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+    
+    grid-column: 1 / 3;
+    grid-row: 1;
+}
+
+.print-info > div > section {
+    grid-column: 1 / 5;
+    grid-row: 2;
+}
+
+.spinner > * {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.spinner > p {
+    text-align: center;
+    color: var(--highlight);
+    font-weight: bold;
+    font-size: 4vw;
+}
+
+.spinner > svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Thermals */
+.thermals {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+#thermals-graph {
+
+}
+
+/* Limits */
+
+.limits > div {
+    display: grid;
+    /* grid-template-rows: 2fr; */
+    grid-template-columns: 50% 50%;
+}
+
+.limits > div > :nth-child(1) {
+    grid-column: 1;
+    text-align: right;
+    width: 100%;
+    padding-right: 2%;
+}
+
+.limits > div > :nth-child(2) {
+    grid-column: 2;
+    width: 100%;
+    padding-left: 2%;
+}
+
+.error {
+    grid-column: 1/3;
+    grid-row: 2/3;
+    display: none;
+}

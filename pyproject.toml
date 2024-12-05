@@ -8,13 +8,16 @@ readme = "README.md"
 packages = [{include = "src"}]
 
 [tool.poetry.scripts]
-server = "src.main:run"
+# server = "src.main:run"
 klipper-get = 'src.tools.klipper-get:run'
+net-test = 'src.net:run'
 
 [tool.poetry.dependencies]
 python = "^3.10"
 python-dotenv = "^1.0.1"
 requests = "^2.32.3"
+flask = "^3.0.3"
+paho-mqtt = "^2.1.0"
 
 [build-system]
 requires = ["poetry-core"]

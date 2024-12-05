@@ -87,3 +87,6 @@
 ### Security Concerns
 
 - This will require an API key, and because the display board pi is free to access by any member, I should create a seperate account and API key for it.
+
+## Additional notes
+- Screen size is 768,1360
