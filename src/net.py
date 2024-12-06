@@ -15,7 +15,7 @@ mqttc.connect("mqtt.hacklab")
 print_state = "complete"
 
 
-def handle_squawk(state: str):
+def handle_squawk(state):
     match state:
         case "printing" as s:
             print_state = s
@@ -24,12 +24,11 @@ def handle_squawk(state: str):
                 print_state = s
                 mqttc.publish("sound/g1/speak", f"Print {s} on Voron")
 
-
 def get(
     url: str,
     method: str,
-    query: list[str] | dict[str, str] | None = None,
-    key: str | None = None
+    query = None,
+    key = None
 ) -> requests.Response:
     # Construct base URL
     url = f"{url}/{method.lstrip('/')}"
@@ -44,7 +43,7 @@ def get(
     if key:
         headers["X-Api-Key"] = key
 
-    print(f"GET {url}")
+    # print(f"GET {url}")
     return requests.get(url, headers=headers)
 
 
@@ -54,15 +53,15 @@ def run():
     pprint(get_packet(printer_url, api_key))
 
 
-def get_cat(json, cat: str):
+def get_cat(json, cat):
     return json.get("result").get("status").get(cat)
 
 
-def get_state(json) -> str:
+def get_state(json):
     return get_cat(json, "print_stats").get("state")
 
 
-def get_file(json, printer_url, api_key) -> dict[str, str | int | float]:
+def get_file(json, printer_url, api_key):
     print_stats = get_cat(json, "print_stats")
     display = get_cat(json, "display_status")
     virtual_sdcard = get_cat(json, "virtual_sdcard")
@@ -85,12 +84,12 @@ def get_file(json, printer_url, api_key) -> dict[str, str | int | float]:
     }
 
 
-def get_thermals() -> dict[str, str | int | float]:
+def get_thermals():
     return {}
     # return Thermals()
 
 
-def get_packet(printer_url: str, api_key: str | None) -> dict[str, str | dict[str, str | int | float]]:
+def get_packet(printer_url, api_key):
 
     try:
         res: requests.Response = get(printer_url, "printer/objects/query",
@@ -117,11 +116,11 @@ def get_packet(printer_url: str, api_key: str | None) -> dict[str, str | dict[st
 
     state = get_state(json)
 
-    packet: dict[str, str | dict[str, str | int | float]] = {
+    packet = {
         "printer_state": state
     }
 
-    print(f"State: {state}")
+    # print(f"State: {state}")
 
     match state:
         case "standby":  # Ready to start printing

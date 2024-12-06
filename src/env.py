@@ -1,6 +1,6 @@
 import dotenv
 
-def load_env() -> tuple[str, str | None]:
+def load_env():
     env = dotenv.dotenv_values(".env")
     if env.get("PRINTER-URL") == None:
         print("ERROR: please set 'PRINTER-URL' in .env")
