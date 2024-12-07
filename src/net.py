@@ -2,27 +2,46 @@ import requests
 from pprint import pprint
 from src.env import load_env
 import paho.mqtt.client as mqtt
+import random
 
 current_print = {
     "filename": None,
-    "metadata": None
+    "metadata": None,
+    "state": "complete"
 }
 
+mqttc = mqtt.Client()
 
-# mqttc = mqtt.Client()
-# mqttc.connect("mqtt.hacklab")
+# print_state = "complete"
 
-print_state = "complete"
+def choose_message(type: str) -> str:
+    return random.choices(
+        [
+            # Typed weirdly so the tts pronounces it correctly
+            f"Print {type} on vore on",
+            f"Print {type} on morr on",
+            "Spaghetti detected on vore on",
+            "Replicator reports job complete captain"
+        ],
+        weights=[
+            0.7,
+            0.1,
+            0.1,
+            0.1
+        ],
+        k=1
+    )[0]
 
 
 def handle_squawk(state):
-    match state:
-        case "printing" as s:
-            print_state = s
-        case ("paused" | "complete") as s:
-            if print_state != s:
-                print_state = s
-                # mqttc.publish("sound/g1/speak", f"Print {s} on Voron")
+    if current_print["state"] == "printing":
+        current_print["state"] = state
+    elif state == "paused" or state == "complete":
+        if current_print["state"] != state:
+            current_print["state"] = state
+            mqttc.connect("mqtt.hacklab") # Connect here since we only need to connect once every few hours at most
+            mqttc.publish("sound/g1/speak", payload=choose_message(state))
+            mqttc.disconnect()
 
 def get(
     url: str,
