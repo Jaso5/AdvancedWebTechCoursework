@@ -145,7 +145,7 @@ def get_packet(printer_url, api_key):
         case "standby":  # Ready to start printing
             pass
             # packet["limits"] = get_limits(json)
-        case "printing" | "paused" | "complete":
+        case "printing" | "paused" | "complete" | "cancelled":
             packet["file_info"] = get_file(json, printer_url, api_key)
             # packet["limits"] = get_limits(json)
             handle_squawk(state)
