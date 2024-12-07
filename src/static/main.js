@@ -88,7 +88,7 @@ function unset_error() {
 }
 
 async function process_update(response) {
-    console.table(response);
+    // console.table(response);
 
     switch (response.printer_state) {
         case "standby":

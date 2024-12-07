@@ -18,3 +18,5 @@ def main():
 @app.route("/api/update")
 def api():
     return net.get_packet(printer_url, api_key)
+
+app.run("0.0.0.0", "5000")

@@ -9,8 +9,8 @@ current_print = {
 }
 
 
-mqttc = mqtt.Client()
-mqttc.connect("mqtt.hacklab")
+# mqttc = mqtt.Client()
+# mqttc.connect("mqtt.hacklab")
 
 print_state = "complete"
 
@@ -22,7 +22,7 @@ def handle_squawk(state):
         case ("paused" | "complete") as s:
             if print_state != s:
                 print_state = s
-                mqttc.publish("sound/g1/speak", f"Print {s} on Voron")
+                # mqttc.publish("sound/g1/speak", f"Print {s} on Voron")
 
 def get(
     url: str,
@@ -72,7 +72,7 @@ def get_file(json, printer_url, api_key):
         current_print["filename"] = filename
         try:
             current_print["metadata"] = get(
-                printer_url, "server/files/metadata", query={"filename": filename}, key=api_key).json()
+                "http://localhost", "server/files/metadata", query={"filename": filename}, key=api_key).json()
         except:
             pass
 
@@ -92,7 +92,7 @@ def get_thermals():
 def get_packet(printer_url, api_key):
 
     try:
-        res: requests.Response = get(printer_url, "printer/objects/query",
+        res: requests.Response = get("http://localhost", "printer/objects/query",
                                      ["virtual_sdcard", "print_stats", "display_status", "webhooks"], api_key)
     except Exception as e:
         return {
