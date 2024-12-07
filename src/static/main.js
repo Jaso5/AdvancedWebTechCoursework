@@ -63,7 +63,11 @@ function set_icon(filename) {
 
     path.push(`.thumbs/${gcode.substring(0, gcode.search(".gcode"))}-400x300.png`);
 
-    thumb.src = `http://voron24.hacklab/server/files/gcodes/${path.join("/")}`;
+    try {
+        thumb.src = `http://voron24.hacklab/server/files/gcodes/${path.join("/")}`;
+    } catch (error) {
+
+    }
 }
 
 function set_print_info(path, state) {
@@ -100,8 +104,8 @@ async function process_update(response) {
         case "cancelled":
             unset_error();
             set_spinner(response.file_info.progress);
-            set_icon(response.file_info.path);
             set_print_info(response.file_info.path, response.printer_state);
+            set_icon(response.file_info.path);
             break;
         case "error":
             set_error(response.message);
