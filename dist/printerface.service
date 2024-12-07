@@ -1,0 +1,15 @@
+[Unit]
+Description=Jacob's Printer Status page for g1
+Requires=network-online.target
+After=network-online.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+User=jaso5 
+WorkingDirectory=/home/jaso5/AdvancedWebTechCoursework
+ExecStart=/home/jaso5/AdvancedWebTechCoursework/.venv/bin/python3.10 -m gunicorn -b 0.0.0.0:5000 -w 1 src.main:app
+Restart=always
+RestartSec=10
