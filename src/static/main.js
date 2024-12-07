@@ -97,6 +97,7 @@ async function process_update(response) {
         case "complete":
         case "printing":
         case "paused":
+        case "cancelled":
             unset_error();
             set_spinner(response.file_info.progress);
             set_icon(response.file_info.path);
