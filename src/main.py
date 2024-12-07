@@ -1,8 +1,8 @@
 from flask import Flask, render_template
 import logging
 
-from env import load_env
-import net
+from src.env import load_env
+import src.net as net
 
 logging.getLogger(__name__)
 
@@ -19,4 +19,4 @@ def main():
 def api():
     return net.get_packet(printer_url, api_key)
 
-app.run("0.0.0.0", "5000")
+# app.run("0.0.0.0", "5000")

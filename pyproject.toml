@@ -18,6 +18,7 @@ python-dotenv = "^1.0.1"
 requests = "^2.32.3"
 flask = "^3.0.3"
 paho-mqtt = "^2.1.0"
+gunicorn = "^23.0.0"
 
 [build-system]
 requires = ["poetry-core"]
