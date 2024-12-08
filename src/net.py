@@ -14,6 +14,7 @@ mqttc = mqtt.Client()
 
 # print_state = "complete"
 
+
 def choose_message(type: str) -> str:
     return random.choices(
         [
@@ -39,15 +40,17 @@ def handle_squawk(state):
     elif state == "paused" or state == "complete":
         if current_print["state"] != state:
             current_print["state"] = state
-            mqttc.connect("mqtt.hacklab") # Connect here since we only need to connect once every few hours at most
+            # Connect here since we only need to connect once every few hours at most
+            mqttc.connect("mqtt.hacklab")
             mqttc.publish("sound/g1/speak", payload=choose_message(state))
             mqttc.disconnect()
+
 
 def get(
     url: str,
     method: str,
-    query = None,
-    key = None
+    query=None,
+    key=None
 ) -> requests.Response:
     # Construct base URL
     url = f"{url}/{method.lstrip('/')}"
@@ -139,23 +142,23 @@ def get_packet(printer_url, api_key):
         "printer_state": state
     }
 
-    # print(f"State: {state}")
+    print(f"State: {state}")
+    print(f"Persistent: {current_print}")
 
-    match state:
-        case "standby":  # Ready to start printing
-            pass
-            # packet["limits"] = get_limits(json)
-        case "printing" | "paused" | "complete" | "cancelled":
-            packet["file_info"] = get_file(json, printer_url, api_key)
-            # packet["limits"] = get_limits(json)
-            handle_squawk(state)
-        case "error":
-            return {
-                "printer_state": "error",
-                "message": get_cat(json, "print_stats").get("message")
-            }
-        case _:
-            print(f"Unknown state {state}")
+    if state == "standby":  # Ready to start printing
+        pass
+        # packet["limits"] = get_limits(json)
+    elif state in ["printing", "paused", "complete", "cancelled"]:
+        packet["file_info"] = get_file(json, printer_url, api_key)
+        # packet["limits"] = get_limits(json)
+        handle_squawk(state)
+    elif state == "error":
+        return {
+            "printer_state": "error",
+            "message": get_cat(json, "print_stats").get("message")
+        }
+    else:
+        print(f"Unknown state {state}")
 
     return packet
 
