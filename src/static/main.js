@@ -36,15 +36,15 @@ function init_chart() {
     });
 }
 
-function request_update() {
+function get(route, handler) {
     let request = new XMLHttpRequest();
 
     try {
-        request.open("GET", "api/update")
+        request.open("GET", route)
 
         request.responseType = "json";
 
-        request.addEventListener("load", () => process_update(request.response));
+        request.addEventListener("load", () => handler(request.response));
         request.addEventListener("error", () => {
             // console.error(`Request error ${request.status}: ${request.error}`)
             set_error("Printer offline")
@@ -54,6 +54,27 @@ function request_update() {
     } catch (error) {
         console.error(`Request error ${request.status}: ${error}`);
     }
+}
+
+function request_update() {
+    get("api/update", process_update);
+    // let request = new XMLHttpRequest();
+
+    // try {
+    //     request.open("GET", "api/update")
+
+    //     request.responseType = "json";
+
+    //     request.addEventListener("load", () => process_update(request.response));
+    //     request.addEventListener("error", () => {
+    //         // console.error(`Request error ${request.status}: ${request.error}`)
+    //         set_error("Printer offline")
+    //     });
+
+    //     request.send();
+    // } catch (error) {
+    //     console.error(`Request error ${request.status}: ${error}`);
+    // }
 }
 
 function set_icon(filename) {
@@ -120,3 +141,20 @@ set_spinner(0);
 request_update();
 // Update once every 30 seconds. Since printers operate over hours, the data won't change frequently
 setInterval(request_update, 30 * 1000);
+
+function lights_on() {
+    get("api/lights/on", () => {});
+
+    // Turn off after 20 seconds
+    setTimeout(lights_off, 20 * 1000);
+}
+
+function lights_off() {
+    get("api/lights/off", () => {});
+}
+
+document.onkeydown = function (e) {
+    if (e.key == "a") {
+        lights_on()
+    }
+};

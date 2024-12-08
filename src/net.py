@@ -65,6 +65,28 @@ def get(
     # print(f"GET {url}")
     return requests.get(url, headers=headers)
 
+def post(
+    url: str,
+    method: str,
+    query=None,
+    key=None
+) -> requests.Response:
+    # Construct base URL
+    url = f"{url}/{method.lstrip('/')}"
+    # Add query
+    if type(query) == list:
+        url += "?" + "&".join(query)
+    elif type(query) == dict:
+        url += "?" + "&".join(f"{k}={v}" for k, v in query.items())
+
+    # Add api key
+    headers = {}
+    if key:
+        headers["X-Api-Key"] = key
+
+    # print(f"GET {url}")
+    return requests.post(url, headers=headers)
+
 
 def run():
     (printer_url, api_key) = load_env()
@@ -111,7 +133,7 @@ def get_thermals():
 def get_packet(printer_url, api_key):
 
     try:
-        res: requests.Response = get("http://localhost", "printer/objects/query",
+        res: requests.Response = get(printer_url, "printer/objects/query",
                                      ["virtual_sdcard", "print_stats", "display_status", "webhooks"], api_key)
     except Exception as e:
         return {
