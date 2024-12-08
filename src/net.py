@@ -35,7 +35,7 @@ def choose_message(type: str) -> str:
 
 
 def handle_squawk(state):
-    if current_print["state"] == "printing":
+    if state == "printing":
         current_print["state"] = state
     elif state == "paused" or state == "complete":
         if current_print["state"] != state:
