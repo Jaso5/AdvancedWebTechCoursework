@@ -10,10 +10,6 @@ current_print = {
     "state": "complete"
 }
 
-mqttc = mqtt.Client()
-
-# print_state = "complete"
-
 
 def choose_message(type: str) -> str:
     return random.choices(
@@ -41,6 +37,7 @@ def handle_squawk(state):
         if current_print["state"] != state:
             current_print["state"] = state
             # Connect here since we only need to connect once every few hours at most
+            mqttc = mqtt.Client()
             mqttc.connect("mqtt.hacklab")
             mqttc.publish("sound/g1/speak", payload=choose_message(state))
             mqttc.disconnect()
@@ -142,8 +139,8 @@ def get_packet(printer_url, api_key):
         "printer_state": state
     }
 
-    print(f"State: {state}")
-    print(f"Persistent: {current_print}")
+    # print(f"State: {state}")
+    # print(f"Persistent: {current_print}")
 
     if state == "standby":  # Ready to start printing
         pass
