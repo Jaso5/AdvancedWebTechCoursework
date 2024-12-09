@@ -4,4 +4,4 @@
 source .venv/bin/activate
 
 # Start server
-python -m flask --app src/main run
+python -m gunicorn -b 0.0.0.0:5000 -w 1 src.main:app
